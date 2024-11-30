@@ -1,0 +1,95 @@
+{% extends 'bases/dash_base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="p-10" x-data="{ isOpen: false, selectedProductId: null }" class="overflow-hidden">
+    <table id="ProductTable" name="empleados" class="display responsive nowrap">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Categoria</th>
+                <th>Creado Por</th>
+                <th></th> 
+                {% if user.is_superuser %}
+                    <th></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for product in products  %}
+            <tr>
+                <td>{{product.id}}</td>
+                <td>{{product.nombre}}</td>
+                <td>{{product.descripcion}}</td>
+                <td>{{product.precio}}</td>
+                <td>{{product.categoria.get_nombre_display}}</td>
+                <td>{{product.creado_por.username}}</td>
+                <td>
+                    <a class="flex items-center justify-center px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-yellow-400 rounded-lg hover:bg-yellow-300 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80"
+                                href="{% url 'actualizar-productos' id_product=product.id %}">
+                        <svg class="w-5 h-5 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                        </svg>
+
+                        <span class="mx-1">Actualizar</span>
+                    </a>
+                </td>
+                
+                {% if user.is_superuser %}
+                <td>
+                    <a @click="isOpen = true; selectedProductId = {{ product.id }}" class="flex items-center justify-center px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-lg hover:bg-red-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                        <svg class="w-5 h-5 mx-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                        </svg>
+
+                        <span class="mx-1">Eliminar</span>
+                    </a>
+                </td>
+                {% endif %}
+            </tr>  
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if user.is_superuser %}
+    <div x-show="isOpen"
+        x-transition:enter="transition duration-300 ease-out"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition duration-150 ease-in"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+        <div class="bg-white rounded-lg shadow-xl sm:max-w-sm sm:w-full sm:p-6">
+            <div class="text-center">
+                <h3 class="text-lg font-medium text-gray-800">¿Estás seguro de eliminar este producto?</h3>
+                <p class="mt-2 text-sm text-gray-500">ID del producto seleccionado: <span x-text="selectedProductId"></span></p>
+            </div>
+            <div class="mt-5 sm:flex sm:justify-center">
+                <button @click="isOpen = false"
+                    class="px-4 py-2 mt-2 text-sm font-medium text-gray-700 border rounded-md hover:bg-gray-100">
+                    Cancelar
+                </button>
+                <a class="px-4 py-2 mt-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-500" :href="'/dashboard/delete_product/' + selectedProductId + '/'">
+                    Confirmar
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script>
+    let table = new DataTable('#ProductTable', {
+        responsive : true
+    });
+</script>
+    
+{% endblock content %}
+    

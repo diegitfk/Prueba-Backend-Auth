@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Template</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.tailwindcss.js"></script>
+  <script src="//unpkg.com/alpinejs" defer></script>
+  <style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+</style>
+</head>
+<body class="bg-gray-100 h-screen font-sans">
+  
+  {% if user.is_authenticated %}
+  <div x-data="{ openSidebar: true, userMenuOpen: false }" class="flex h-full relative">
+    <!-- Sidebar -->
+    <aside
+      :class="openSidebar ? 'w-64' : 'w-16'"
+      class="bg-lime-500 text-white flex flex-col space-y-6 px-4 py-7 transition-all duration-300">
+
+      <!-- Toggle Sidebar -->
+      <button @click="openSidebar = !openSidebar"
+        class="text-gray-300 hover:text-white focus:outline-none self-end">
+        <svg xmlns="http://www.w3.org/2000/svg" :class="openSidebar ? 'rotate-180' : ''" class="w-6 h-6 transform transition-transform" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 3a1 1 0 01.707 1.707L7.414 8H17a1 1 0 110 2H7.414l3.293 3.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5A1 1 0 0110 3z" clip-rule="evenodd" />
+        </svg>
+      </button>
+
+      <!-- Logo -->
+      <div class="text-center text-xl font-bold" x-show="openSidebar">
+        My Dashboard
+      </div>
+
+      <!-- Navigation -->
+      <nav>
+        <div x-data="{ open: false }">
+          <button @click="open = !open"
+            class="w-full text-left flex items-center justify-between py-2 px-4 rounded hover:bg-gray-600">
+            <span x-show="openSidebar">Productos</span>
+            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.94l3.71-3.73a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 010-1.06z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div x-show="open && openSidebar" x-transition class="pl-6 mt-2 space-y-1">
+            
+            {% if user.is_superuser or not use.is_superuser %}
+            <a href="{% url 'ver-productos' %}" class="block py-1 px-2 rounded hover:bg-gray-600">Administrar Productos</a>
+            <a href="{% url 'crear-productos' %}" class="block py-1 px-2 rounded hover:bg-gray-600">Agregar Productos</a>
+            {% endif %}
+          </div>
+        </div>
+        {% if user.is_superuser %}
+        <div x-data="{ open: false }">
+            <button @click="open = !open"
+              class="w-full text-left flex items-center justify-between py-2 px-4 rounded hover:bg-gray-600">
+              <span x-show="openSidebar">Categorias</span>
+              <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.94l3.71-3.73a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 010-1.06z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div x-show="open && openSidebar" x-transition class="pl-6 mt-2 space-y-1">
+              
+              <a href="{% url 'admin-categorias' %}" class="block py-1 px-2 rounded hover:bg-gray-600">Administrar Categorias</a>
+              <a href="{% url 'crear-categorias' %}" class="block py-1 px-2 rounded hover:bg-gray-600">Agregar Categorias</a>
+            </div>
+          </div>
+          <div x-data="{ open: false }">
+            <button @click="open = !open"
+              class="w-full text-left flex items-center justify-between py-2 px-4 rounded hover:bg-gray-600">
+              <span x-show="openSidebar">Usuarios</span>
+              <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.94l3.71-3.73a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 010-1.06z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div x-show="open && openSidebar" x-transition class="pl-6 mt-2 space-y-1">
+              
+              <a href="{% url 'admin-usuarios' %}" class="block py-1 px-2 rounded hover:bg-gray-600">Administrar Usuarios</a>
+            </div>
+          </div>
+        {% endif %}
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col relative z-10">
+      <!-- Header -->
+      <header class="bg-white shadow p-4 flex items-center justify-between z-20 relative">
+        <h1 class="text-xl font-semibold">Dashboard</h1>
+
+        <!-- User Menu -->
+        <div class="relative" x-data="{ open: false }">
+          <button @click="open = !open" class="flex items-center space-x-2 text-gray-800 hover:text-gray-600 focus:outline-none">
+            <span>{{user.username}}</span>
+            <svg :class="{ 'rotate-180': open }" class="w-5 h-5 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-30">
+            <form action="{% url 'logout' %}" method="post" class="w-full">
+              {% csrf_token %}
+              <button type="submit" class="block px-4 py-2 text-gray-800">
+                  Logout
+              </button>
+          </form>
+          </div>
+        </div>
+      </header>
+      <!-- Content -->
+      {% block content %}
+                
+      {% endblock content %} 
+    </main>
+  </div>
+  {% endif %}
+
+  <!-- 
+  -->
+</body>
+</html>
