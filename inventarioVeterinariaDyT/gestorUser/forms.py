@@ -5,20 +5,20 @@ from django import forms
 class SignUpUserForm(UserCreationForm):
     TAILWIND_CSS_INPUTS = "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
     username = forms.CharField(
-        widget=forms.TextInput(attrs={'class' : TAILWIND_CSS_INPUTS}),
+        widget=forms.TextInput(attrs={'class' : TAILWIND_CSS_INPUTS, 'placeholder' : 'Ingrese su nombre de usuario'}),
         label="Nombre de usuario"
     )
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'class' : TAILWIND_CSS_INPUTS}),
+        widget=forms.EmailInput(attrs={'class' : TAILWIND_CSS_INPUTS, 'placeholder' : 'Ingrese su correo electrónico'}),
         label='Correo Electrónico'
     )
 
     password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': TAILWIND_CSS_INPUTS}),
+        widget=forms.PasswordInput(attrs={'class': TAILWIND_CSS_INPUTS, 'placeholder' : '••••••••'}),
         label="Contraseña"
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': TAILWIND_CSS_INPUTS}),
+        widget=forms.PasswordInput(attrs={'class': TAILWIND_CSS_INPUTS, 'placeholder' : '••••••••'}),
         label="Confirmar Contraseña"
     )
     class Meta:
@@ -28,11 +28,11 @@ class SignUpUserForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     TAILWIND_CSS_INPUTS = "block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
     username = forms.CharField(
-        widget=forms.TextInput(attrs={'class' : TAILWIND_CSS_INPUTS}),
+        widget=forms.TextInput(attrs={'class' : TAILWIND_CSS_INPUTS, 'placeholder' : 'Ingrese su nombre de usuario'}),
         label="Nombre de usuario"
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class' : TAILWIND_CSS_INPUTS}),
+        widget=forms.PasswordInput(attrs={'class' : TAILWIND_CSS_INPUTS, 'placeholder' : '••••••••'}),
         label='Contraseña'
     )
     

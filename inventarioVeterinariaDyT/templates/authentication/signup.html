@@ -1,92 +1,95 @@
 {% extends 'bases/base.html' %}
 {% load static %}
 {% block content %}
-<section class="flex flex-col items-center w-full h-full p-10">
-    <section class="max-w-4xl w-full p-6 mx-auto bg-lime-200 rounded-md shadow-md">
-        <h2 class="text-xl font-semibold text-gray-700 capitalize">Registro de Cuentas</h2>
-        <form action="{% url 'signup' %}" method="post">
-            {% csrf_token %}
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-                <div class="form-group">
-                    <label for="username" class="text-gray-700">{{form.username.label}}</label>
-                    {{form.username}}
+<section class="bg-gray-50 min-h-screen">
+    <div class="flex flex-col items-center justify-center px-6 py-20 mx-auto">
+        <div class="w-full bg-gray-200 rounded-lg shadow md:mt-0 sm:max-w-lg xl:p-0">
+            <div class="p-4 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-700 md:text-2xl">
+                    Crea tu cuenta
+                </h1>
+                <form class="space-y-4 md:space-y-6" action="{% url 'signup' %}" method="post">
+                    {% csrf_token %}
                     
-                    {% if form.username.errors %}
-                    <ul>
-                        {% for error in form.username.errors  %}
-                        <li class="flex items-center text-red-500 text-sm fade-in break-words">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            {{error}}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <label for="email" class="text-gray-700">{{form.email.label}}</label>
-        
-                    {{form.email}}
-                    
-                    {% if form.email.errors %}
-                    <ul>
-                        {% for error in form.email.errors  %}
-                        <li class="flex items-center text-red-500 text-sm fade-in break-words">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            {{error}}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-        
-                </div>
-                <div class="form-group">
-                    <label for="password1" class="text-gray-700">{{form.password1.label}}</label>
-        
-                    {{form.password1}}
-                    
-                    {% if form.password1.errors %}
-                    <ul>
-                        {% for error in form.password1.errors  %}
-                        <li class="flex items-center text-red-500 text-sm fade-in break-words">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            {{error}}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-        
-                </div>
-                <div class="form-group">
-                    <label for="password2" class="text-gray-700">{{form.password2.label}}</label>
-        
-                    {{form.password2}}
-                    
-                    {% if form.password2.errors %}
-                    <ul>
-                        {% for error in form.password2.errors  %}
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900">{{ form.username.label }}</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                        <ul>
+                            {% for error in form.username.errors %}
                             <li class="flex items-center text-red-500 text-sm fade-in break-words">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                                {{error}}
+                                {{ error }}
                             </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <ul>
+                            {% for error in form.email.errors %}
+                            <li class="flex items-center text-red-500 text-sm fade-in break-words">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                {{ error }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="password1" class="block mb-2 text-sm font-medium text-gray-900">{{ form.password1.label }}</label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                        <ul>
+                            {% for error in form.password1.errors %}
+                            <li class="flex items-center text-red-500 text-sm fade-in break-words">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                {{ error }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="password2" class="block mb-2 text-sm font-medium text-gray-900">{{ form.password2.label }}</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                        <ul>
+                            {% for error in form.password2.errors %}
+                            <li class="flex items-center text-red-500 text-sm fade-in break-words">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                {{ error }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="w-full text-white bg-sky-900 hover:bg-emerald-500 transition-colors transform duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        Registrarse
+                    </button>
                     
-                </div>
+                    <p class="text-sm font-light text-gray-500">
+                        ¿Ya tienes una cuenta? <a href="{% url 'login' %}" class="font-medium text-sky-700 hover:underline">Inicia sesión</a>
+                    </p>
+                </form>
             </div>
-            <div class="flex flex-col items-center">
-                <input type="submit" class="px-8 py-2.5 mt-5 leading-5 text-white transition-colors duration-300 transform bg-lime-700 rounded-md hover:bg-lime-600 focus:outline-none focus:bg-gray-600">
-            </div>
-        </form> 
-    </section>   
+        </div>
+    </div>
 </section>
 {% endblock content %}
-    
+
