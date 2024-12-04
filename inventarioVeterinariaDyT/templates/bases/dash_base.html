@@ -31,7 +31,7 @@
 <body class="bg-gray-100 h-screen font-sans">
   
   {% if user.is_authenticated %}
-  <div x-data="{ openSidebar: true, userMenuOpen: false }" class="flex h-full relative">
+  <div x-data="{ openSidebar: true, userMenuOpen: false }" class="flex min-h-screen relative">
     <!-- Sidebar -->
     <aside
       :class="openSidebar ? 'w-64' : 'w-16'"

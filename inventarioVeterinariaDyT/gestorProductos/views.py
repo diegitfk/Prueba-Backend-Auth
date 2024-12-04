@@ -48,9 +48,7 @@ class UpdateProductsView(LoginRequiredMixin , View):
         product = models.Producto.objects.get(id=id_product)
         form_update = forms.ProductGeneralForm(request.POST , instance=product)
         if form_update.is_valid():
-            instance = form_update.save(commit=False)
-            instance.creado_por = request.user
-            instance.save()
+            form_update.save()
             return redirect(reverse('ver-productos'))
         else:
             product = models.Producto.objects.get(id=id_product)
